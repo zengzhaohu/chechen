@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.car.web.mapper.maintain.SysMaintainMapper">
+	<resultMap id="serviceMap" type="com.car.web.model.maintain.SysMaintainEntity">
+		<id property="id" column="id"/>
+	    <result property="carId" column="carId"/>
+		<result property="plateNumber" column="plateNumber"/>
+		<result property="date" column="date"/>
+		<result property="type" column="type"/>
+		<result property="nextDate" column="nextDate"/>
+		<result property="mileage" column="mileage"/>
+		<result property="status" column="status"/>
+		<result property="remark" column="remark"/>
+		<result property="deFlag" column="deFlag"/>
+		<result property="creator" column="creator"/>
+		<result property="createTime" column="createTime"/>
+		<result property="updateTime" column="updateTime"/>
+		<result property="updator" column="updator"/>
+		<result property="userName" column="userName"/>
+		<result property="phone" column="phone"/>
+		<association property="serviceCostList" column="id" select="com.car.web.mapper.maintain.SysMaintainServiceCostMapper.getObjectByServiceId" />
+		<association property="materialCostList" column="id" select="com.car.web.mapper.maintain.SysMaintainMaterialCostMapper.getObjectByServiceId" />
+		<association property="otherCostList" column="id" select="com.car.web.mapper.maintain.SysMaintainOtherCostMapper.getObjectByServiceId" />
+	</resultMap>
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO chechen_maintenance (
+			carId,
+			date,
+			type,
+			nextDate,
+			cost,
+			mileage,
+			status,
+			remark,
+			createTime
+		)
+		VALUES (
+			#{carId},
+			#{date}, 
+			#{type},
+			#{nextDate}, 
+			#{cost},
+			#{mileage},
+			#{status},
+			#{remark},
+			now()
+		)
+	</insert>
+	<select id="list" resultType="SysMaintainEntity">
+	SELECT
+		m.id,
+		m.carId,
+		car.plateNumber,
+		cc.userName,
+		cc.phone,
+		m.date,
+		m.type,
+		m.nextDate,
+		m.cost,
+		m.mileage,
+		m.status,
+		m.remark,
+		m.deFlag,
+		m.createTime,
+		m.creator,
+		m.updateTime,
+		m.updator
+	FROM
+		chechen_maintenance m , chechen_car car left join (select c.userName,c.phone,ccar.carId from chechen_customer_car ccar,chechen_customer c where ccar.deFlag=0 and c.deFlag=0 and ccar.customerId=c.id) cc on car.id=cc.carId
+	WHERE
+		m.deFlag=0
+		and car.deFlag=0
+		AND m.carId=car.id 
+	<if test="plateNumber!=null">
+		AND car.plateNumber like concat('%',#{plateNumber},'%')
+	</if>
+	<if test="status!=null and status.trim()!=''">
+		AND m.status=#{status}
+	</if>
+	ORDER BY m.createTime desc
+	</select>
+	<select id="getObjectById" resultMap="serviceMap">
+	SELECT
+		m.id,
+		m.carId,
+		c.plateNumber,
+		cc.userName,
+		cc.phone,
+		m.date,
+		m.type,
+		m.nextDate,
+		m.cost,
+		m.mileage,
+		m.status,
+		m.remark,
+		m.deFlag,
+		m.createTime,
+		m.creator,
+		m.updateTime,
+		m.updator
+	FROM
+		chechen_maintenance m left join chechen_car c on m.carId=c.id and c.deFlag=0 left join (select cc.userName,cc.phone,ccar.carId from chechen_customer_car ccar,chechen_customer cc where ccar.deFlag=0 and cc.deFlag=0 and ccar.customerId=cc.id) cc on c.id=cc.carId
+	WHERE
+		m.deFlag=0
+	AND m.id=#{value}
+	
+	</select>
+	<update id="update">
+	UPDATE chechen_maintenance
+	<set>
+		<if test="carId!=null"> carId = #{carId},</if>
+		<if test="date!=null"> date = #{date},</if>
+		<if test="type!=null"> type = #{type},</if>
+		<if test="nextDate!=null"> nextDate = #{nextDate},</if>
+		<if test="cost!=null"> cost = #{cost},</if>
+		<if test="mileage!=null"> mileage = #{mileage},</if>
+		<if test="status!=null"> status = #{status},</if>
+		<if test="remark!=null"> remark = #{remark},</if>
+		<if test="deFlag!=null"> deFlag = #{deFlag},</if>
+		updateTime= NOW()
+	</set>
+	WHERE
+	deFlag=0
+	AND id = #{id}	
+	</update>
+	<update id="batchRemove">
+		UPDATE
+			chechen_maintenance
+		SET
+			deFlag=1
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	
+	</update>
+	<select id="listByStatus" resultType="SysMaintainEntity">
+	<![CDATA[
+	SELECT
+		m.id,
+		m.carId,
+		m.date,
+		m.type,
+		m.nextDate,
+		m.cost,
+		m.mileage,
+		m.status,
+		m.remark,
+		m.deFlag,
+		m.createTime,
+		m.creator,
+		m.updateTime,
+		m.updator
+	FROM
+		chechen_maintenance m
+	WHERE
+	m.deFlag=0
+	AND m.status=#{value}
+	AND m.nextDate <= NOW()
+	  ]]>
+	</select>
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			UPDATE
+				chechen_maintenance
+			SET
+				status=#{item.status},
+				updateTime=now()
+			WHERE
+				deFlag=0
+			AND id=#{item.id}
+		</foreach>
+	</update>
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+</mapper>

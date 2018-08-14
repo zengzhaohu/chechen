@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>车臣汽车服务</title>
+<link rel="stylesheet" th:href="@{../css/style.css}"/>
+<script th:src="@{../js/jquery-1.11.1.min.js}" type="text/javascript"></script>   
+</head>
+
+<body style="margin-top:50px;overflow:hidden;" th:inline="text">
+	<form th:action="@{/user/save}" th:object="${user}" th:method="post">
+		<input type="hidden" th:field="*{id}" th:value="${user.id}!=null?${user.id}:null"/>
+		<table class="gridtable" style="width:800px;">
+		<tr>
+		<th colspan="5">添加用户</th>
+		</tr>
+		<tr>
+			<td>用户编号:</td>
+			<td><input type="text" th:field="*{usercode}" th:value="${user.usercode}==null?'':${user.usercode}"/></td>
+		</tr>
+		<tr>
+			<td>用户姓名:</td>
+			<td><input type="text" th:field="*{username}" th:value="${user.username}==null?'':${user.username}"/></td>
+		</tr>
+		<tr>
+			<td>用户密码:</td>
+			<td><input type="password" th:field="*{password}" th:value="${user.password}==null?'':${user.password}"/></td>
+		</tr>
+		<tr>
+			<td>用户性别:</td>
+			<td><input type="text" th:field="*{gender}" th:value="${user.gender}==null?'':${user.gender}"/></td>
+		</tr>
+		
+		<tr>
+			<td>用户手机号:</td>
+			<td><input type="text" th:field="*{phone}" th:value="${user.phone}==null?'':${user.phone}"/></td>
+		</tr>
+		
+		<tr>
+			<td>用户类型:</td>
+			<td><input type="text" th:field="*{type}" th:value="${user.type}==null?'':${user.type}"/></td>
+		</tr>
+		<tr>
+		<td colspan="5"><input type="reset" th:value="重置" /><input type="submit" th:value="提交"/></td>
+		</tr>
+		<tr th:if="${msg}!=null" style="color:#00ba00">
+		<td colspan="5">[[${msg}]]</td>
+		</tr>
+		</table>
+	</form>
+</body>
+</html>

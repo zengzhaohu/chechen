@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--启动项设置为 trace，加载 springboot 启动内部各种详细输出-->
+<Configuration status="trace">
+<!-- 定义下面的引用变量 -->
+<Properties>
+	<property name="log_pattern">[%-5p] %d %c - %m%n</property>
+	<property name="basePath">logs</property>
+	<property name="logName">${basePath}/wisdomfarmpreposition-%d{yyyy-MM-dd}-%i.log</property>
+</Properties>
+    <Appenders>
+        <!--添加一个控制台追加器-->
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+        	<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+        <RollingFile name="logFile" fileName="${logName}" filePattern="${log_pattern}" append="true">
+        	<Filters>
+        		<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        	</Filters>
+        	<Policies>
+        		<TimeBasedTriggeringPolicy/>	
+        	</Policies>
+        </RollingFile>
+        
+    </Appenders>
+    <Loggers>
+        <Logger name="com.wisdomfarm" level="info" />
+        <!--记录 qg.fangrui.boot 包及其子包 debug 及其以上的记录，并输出到文件中-->
+        <Logger name="com.wisdomfarm" level="info">
+            <!-- AppenderRef 可以控制文件输出对象-->
+            <AppenderRef ref="logFile" />
+        </Logger>
+        <!--根记录全部输出到控制台上-->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>

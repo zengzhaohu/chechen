@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.car.web.mapper.maintain.SysMaintainServiceCostMapper">
+	<insert id="save" useGeneratedKeys="true" >
+		INSERT INTO chechen_service_servicecost (
+			serviceId,
+			name,
+			price,
+			createTime
+		)
+		VALUES (
+			#{serviceId},
+			#{name}, 
+			#{price}, 
+			now()
+		)
+	</insert>
+	<select id="list" resultType="SysMaintainServiceCostEntity">
+	SELECT
+		id,
+		serviceId,
+		name,
+		price,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_service_servicecost
+	WHERE
+		deFlag=0
+	
+	ORDER BY createTime desc
+	</select>
+	<select id="getObjectById" resultType="SysMaintainServiceCostEntity">
+	SELECT
+		id,
+		serviceId,
+		name,
+		price,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_service_servicecost
+	WHERE
+		deFlag=0
+	AND id=#{value}
+	
+	</select>
+	
+	<select id="getObjectByServiceId" resultType="SysMaintainServiceCostEntity">
+	SELECT
+		id,
+		serviceId,
+		name,
+		price,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_service_servicecost
+	WHERE
+		deFlag=0
+	AND serviceId=#{value}
+	
+	</select>
+	
+	
+	<update id="update">
+	UPDATE chechen_service_servicecost
+	<set>
+		<if test="serviceId!=null"> serviceId = #{serviceId},</if>
+		<if test="name!=null"> name = #{name},</if>
+		<if test="price!=null"> price = #{price},</if>
+		<if test="deFlag!=null"> deFlag = #{deFlag},</if>
+		updateTime= NOW()
+	</set>
+	WHERE
+	deFlag=0
+	AND id = #{id}	
+	</update>
+	<update id="batchRemove">
+		UPDATE
+			chechen_service_servicecost
+		SET
+			deFlag=1
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<insert id="batchSave" useGeneratedKeys="true" >
+		INSERT INTO chechen_service_servicecost (
+			serviceId,
+			name,
+			price,
+			createTime
+		)
+		VALUES 
+		<foreach collection="list" item="item" index="index" open="" close="" separator=",">
+		(
+			#{item.serviceId},
+			#{item.name}, 
+			#{item.price}, 
+			now()
+		)
+		</foreach>
+	</insert>
+	
+	<update id="batchUpdate" parameterType="java.util.List">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+			UPDATE
+				chechen_service_servicecost
+			SET
+				serviceId=#{item.serviceId},
+				name=#{item.name},
+				price=#{item.price},
+				updateTime=now()
+			WHERE
+				deFlag=0
+			AND id=#{item.id}
+		</foreach>
+	</update>
+	
+	
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+</mapper>

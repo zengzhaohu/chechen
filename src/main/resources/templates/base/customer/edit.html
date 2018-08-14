@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css :: header('编辑-客户信息')"></head>
+<body>
+	<div id="main" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">姓名<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="姓名" v-model="customer.userName" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">电话<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="电话" v-model="customer.phone" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">性别<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="customer.gender">
+						<option v-for="item in genderList" v-bind:value="item.value">
+							{{item.text}}
+						</option>
+					</select>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">省份<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="省份" v-model="customer.province" isvalid="yes" checkexpession="NotNull" >
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">城市<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="城市" v-model="customer.city" isvalid="yes" checkexpession="NotNull" >
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle formTitle-top">备注</td>
+	            <td class="formValue">
+					<textarea class="form-control" rows="4" placeholder="备注" v-model="customer.remark"></textarea>
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js :: footer"></div>
+	<script th:src="@{/js/base/customer/edit.js}"></script>
+</body>
+</html>

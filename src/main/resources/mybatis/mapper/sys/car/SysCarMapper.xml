@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.car.web.mapper.car.SysCarMapper">
+	<insert id="save">
+		INSERT INTO chechen_car (
+			plateNumber,
+			carType,
+			age,
+			mileage,
+			remark,
+			createTime
+		)
+		VALUES (
+			#{plateNumber},
+			#{carType}, 
+			#{age}, 
+			#{mileage},
+			#{remark},
+			now()
+		)
+	</insert>
+	<select id="list" resultType="SysCarEntity">
+	SELECT
+		car.id,
+		car.plateNumber,
+		car.carType,
+		car.age,
+		car.mileage,
+		car.remark,
+		car.deFlag,
+		car.createTime,
+		car.creator,
+		car.updateTime,
+		car.updator,
+		cc.userName,
+		cc.phone
+	FROM
+		chechen_car car left join (select c.userName,c.phone,ccar.carId from chechen_customer_car ccar,chechen_customer c where ccar.deFlag=0 and c.deFlag=0 and ccar.customerId=c.id) cc on car.id=cc.carId
+	WHERE
+		car.deFlag=0
+	<if test="plateNumber!=null">
+		AND car.plateNumber like concat('%',#{plateNumber},'%')
+	</if>
+	ORDER BY car.createTime desc
+	</select>
+	<select id="getObjectById" resultType="SysCarEntity">
+	SELECT
+		id,
+		plateNumber,
+		carType,
+		age,
+		mileage,
+		remark,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_car
+	WHERE
+		deFlag=0
+	AND id=#{value}
+	
+	</select>
+	<update id="update">
+	UPDATE chechen_car
+	<set>
+		<if test="plateNumber!=null"> plateNumber = #{plateNumber},</if>
+		<if test="carType!=null"> carType = #{carType},</if>
+		<if test="age!=null"> age = #{age},</if>
+		<if test="mileage!=null"> mileage = #{mileage},</if>
+		<if test="remark!=null"> remark = #{remark},</if>
+		<if test="deFlag!=null"> deFlag = #{deFlag},</if>
+		updateTime= NOW()
+	</set>
+	WHERE
+	deFlag=0
+	AND id = #{id}	
+	</update>
+	<update id="batchRemove">
+		UPDATE
+			chechen_car
+		SET
+			deFlag=1
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	
+	</update>
+	<insert id="saveRelativeCustomer">
+	INSERT INTO chechen_customer_car (
+			customerId,
+			carId,
+			createTime
+		)
+		VALUES (
+			#{customerId},
+			#{carId}, 
+			now()
+		)
+	
+	</insert>
+	<update id="removeOldCarRelative">
+	UPDATE
+		chechen_customer_car
+	SET
+		deFlag=1
+	WHERE
+		deFlag=0
+	AND carId=#{value}
+	</update>
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+</mapper>

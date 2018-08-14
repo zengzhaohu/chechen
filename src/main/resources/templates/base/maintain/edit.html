@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css :: header('编辑-保养信息')"></head>
+<body>
+	<div id="main" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">车牌<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="serviceEntity.carId">
+						<option v-for="item in carList" v-bind:value="item.id">
+							{{item.plateNumber}}
+						</option>
+					</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="serviceEntity.type">
+						<option v-for="item in serviceType" v-bind:value="item.value">
+							{{item.text}}
+						</option>
+					</select>
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">维修日期<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="date" class="form-control" placeholder="维修日期" v-model="serviceEntity.date" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">费用<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="number" class="form-control" placeholder="费用" v-model="serviceEntity.cost" isvalid="yes" checkexpession="NotNull" >
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">里程<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="number" class="form-control" placeholder="里程" v-model="serviceEntity.mileage" isvalid="yes" checkexpession="NotNull" >
+	            </td>
+        	</tr>
+        	<tr>
+        		 <td class="formTitle">状态<font face="宋体">*</font></td>
+        		 <td class="formValue">
+        			<select class="form-control" v-model="serviceEntity.status">
+						<option v-for="item in statusList" v-bind:value="item.value">
+							{{item.text}}
+						</option>
+					</select>
+        		 </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle formTitle-top">车主</td>
+	            <td class="formValue">
+					<input type="text"  class="form-control" rows="4" placeholder="车主" v-model="serviceEntity.userName" readonly></input>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle formTitle-top">电话</td>
+	            <td class="formValue">
+					<input type="text"   class="form-control" rows="4" placeholder="电话" v-model="serviceEntity.phone" readonly></input>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle formTitle-top">备注</td>
+	            <td class="formValue">
+					<textarea class="form-control" rows="4" placeholder="备注" v-model="serviceEntity.remark"></textarea>
+	            </td>
+        	</tr>
+		</table>
+		<ul id="myTab" class="nav nav-tabs">
+        		<li class="active">
+        			<a href="#servicecost" data-toggle="tab">维修费用</a>
+        		</li>
+        		<li>
+        			<a href="#materialcost" data-toggle="tab">材料费用</a>
+        		</li>
+        		<li>
+        			<a href="#othercost" data-toggle="tab">其他费用</a>
+        		</li>
+        	</ul>
+        	<div id="myTabContent" class="tab-content">
+        		<div class="tab-pane fade in active" id="servicecost">
+        			<table class="table table-condensed">
+        				<thead>
+        					<tr>
+        						<th>序号</th>
+        						<th>维修名称</th>
+        						<th>维修价格</th>
+        						<th>操作</th>
+        				</thead>
+        				<tbody>
+        					<tr v-for="(item,index) in serviceEntity.serviceCostList">
+        						<td>
+        							{{index+1}}
+        						</td>
+        						<td>
+        							<input type="text" class="form-control" placeholder="名称" v-model="item.name" isvalid="yes" checkexpession="NotNull" >
+        						</td>
+        						<td>
+        							<input type="number" class="form-control" placeholder="价格" v-model="item.price" isvalid="yes" checkexpession="NotNull"v-on:input="calculateCost" >
+        						</td>
+        						<td>
+        							<a  class="btn btn-default" @click="addServiceCost"><i class="fa fa-plus"></i>&nbsp;新增</a>
+        							<a  class="btn btn-default" @click="removeServiceCost(index)"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+        						</td>
+        					</tr>
+        				</tbody>
+        			</table>
+        		</div>
+        		<div class="tab-pane fade" id="materialcost">
+        			<table class="table table-condensed">
+        				<thead>
+        					<tr>
+        						<th>序号</th>
+        						<th>材料名称</th>
+        						<th>材料价格</th>
+        						<th>操作</th>
+        				</thead>
+        				<tbody>
+        					<tr v-for="(item,index) in serviceEntity.materialCostList">
+        						<td>
+        							{{index+1}}
+        						</td>
+        						<td>
+        							<input type="text" class="form-control" placeholder="名称" v-model="item.name" isvalid="yes" checkexpession="NotNull" >
+        						</td>
+        						<td>
+        							<input type="number" class="form-control" placeholder="价格" v-model="item.price" isvalid="yes" checkexpession="NotNull" v-on:input="calculateCost" >
+        						</td>
+        						<td>
+        							<a  class="btn btn-default" @click="addMaterialCost"><i class="fa fa-plus"></i>&nbsp;新增</a>
+        							<a  class="btn btn-default" @click="removeMaterialCost(index)"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+        						</td>
+        					</tr>
+        				</tbody>
+        			</table>
+        		</div>
+        		<div class="tab-pane fade" id="othercost">
+        			<table class="table table-condensed">
+        				<thead>
+        					<tr>
+        						<th>序号</th>
+        						<th>费用名称</th>
+        						<th>费用价格</th>
+        						<th>操作</th>
+        				</thead>
+        				<tbody>
+        					<tr v-for="(item,index) in serviceEntity.otherCostList">
+        						<td>
+        							{{index+1}}
+        						</td>
+        						<td>
+        							<input type="text" class="form-control" placeholder="名称" v-model="item.name" isvalid="yes" checkexpession="NotNull" >
+        						</td>
+        						<td>
+        							<input type="number" class="form-control" placeholder="价格" v-model="item.price" isvalid="yes" checkexpession="NotNull" v-on:input="calculateCost" >
+        						</td>
+        						<td>
+        							<a  class="btn btn-default" @click="addOtherCost"><i class="fa fa-plus"></i>&nbsp;新增</a>
+        							<a  class="btn btn-default" @click="removeOtherCost(index)"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+        						</td>
+        					</tr>
+        				</tbody>
+        			</table>
+        		</div>
+        	</div>
+		
+		
+		
+	</div>
+	<div th:include="include/footer_js :: footer"></div>
+	<script th:src="@{/js/base/maintain/edit.js}"></script>
+</body>
+</html>

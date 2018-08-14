@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.car.web.mapper.customer.SysCustomerMapper">
+	<insert id="save">
+		INSERT INTO chechen_customer (
+			userName,
+			phone,
+			gender,
+			province,
+			city,
+			remark,
+			createTime
+		)
+		VALUES (
+			#{userName},
+			#{phone}, 
+			#{gender}, 
+			#{province},
+			#{city},
+			#{remark},
+			now()
+		)
+	</insert>
+	<select id="list" resultType="SysCustomerEntity">
+	SELECT
+		id,
+		userName,
+		phone,
+		gender,
+		province,
+		city,
+		remark,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_customer
+	WHERE
+		deFlag=0
+	<if test="userName!=null">
+		AND userName like concat('%',#{userName},'%')
+	</if>
+	<if test="phone!=null">
+		AND phone = #{phone}
+	</if>
+	ORDER BY createTime desc
+	</select>
+	<select id="getObjectById" resultType="SysCustomerEntity">
+	SELECT
+		id,
+		userName,
+		phone,
+		gender,
+		province,
+		city,
+		remark,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_customer
+	WHERE
+		deFlag=0
+	AND id=#{value}
+	
+	</select>
+	<update id="update">
+	UPDATE chechen_customer
+	<set>
+		<if test="userName!=null"> userName = #{userName},</if>
+		<if test="phone!=null"> phone = #{phone},</if>
+		<if test="gender!=null"> gender = #{gender},</if>
+		<if test="province!=null"> province = #{province},</if>
+		<if test="city!=null"> city = #{city},</if>
+		<if test="remark!=null"> remark = #{remark},</if>
+		<if test="deFlag!=null"> deFlag = #{deFlag},</if>
+		updateTime= NOW()
+	</set>
+	WHERE
+	deFlag=0
+	AND id = #{id}	
+	</update>
+	<update id="batchRemove">
+		UPDATE
+			chechen_customer
+		SET
+			deFlag=1
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	
+	</update>
+	
+	
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+</mapper>

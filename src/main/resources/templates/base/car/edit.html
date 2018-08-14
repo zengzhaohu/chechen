@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css :: header('编辑-车辆信息')"></head>
+<body>
+	<div id="main" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">车牌号码<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="车牌号码" v-model="car.plateNumber" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">车辆类型<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<select class="form-control" v-model="car.carType">
+						<option v-for="item in carTypeList" v-bind:value="item.value">
+							{{item.text}}
+						</option>
+					</select>
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">车龄<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="车龄" v-model="car.age" isvalid="yes" checkexpession="NotNull" >
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle">里程<font face="宋体">*</font></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="里程" v-model="car.mileage" isvalid="yes" checkexpession="NotNull" >
+	            </td>
+        	</tr>
+        	<tr>
+	            <td class="formTitle formTitle-top">备注</td>
+	            <td class="formValue">
+					<textarea class="form-control" rows="4" placeholder="备注" v-model="car.remark"></textarea>
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js :: footer"></div>
+	<script th:src="@{/js/base/car/edit.js}"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.car.web.mapper.service.SysServiceMapper">
+	<resultMap id="serviceMap" type="com.car.web.model.service.SysServiceEntity">
+		<id property="id" column="id"/>
+	    <result property="carId" column="carId"/>
+		<result property="plateNumber" column="plateNumber"/>
+		<result property="date" column="date"/>
+		<result property="type" column="type"/>
+		<result property="mileage" column="mileage"/>
+		<result property="remark" column="remark"/>
+		<result property="deFlag" column="deFlag"/>
+		<result property="creator" column="creator"/>
+		<result property="createTime" column="createTime"/>
+		<result property="updateTime" column="updateTime"/>
+		<result property="updator" column="updator"/>
+		<result property="userName" column="userName"/>
+		<result property="phone" column="phone"/>
+		<association property="serviceCostList" column="id" select="com.car.web.mapper.service.SysServiceCostMapper.getObjectByServiceId" />
+		<association property="materialCostList" column="id" select="com.car.web.mapper.service.SysMaterialCostMapper.getObjectByServiceId" />
+		<association property="otherCostList" column="id" select="com.car.web.mapper.service.SysOtherCostMapper.getObjectByServiceId" />
+	</resultMap>
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="id" >
+		INSERT INTO chechen_service (
+			carId,
+			date,
+			type,
+			cost,
+			mileage,
+			remark,
+			createTime
+		)
+		VALUES (
+			#{carId},
+			#{date}, 
+			#{type},
+			#{cost},
+			#{mileage},
+			#{remark},
+			now()
+		)
+	</insert>
+	<select id="list" resultType="SysServiceEntity">
+	SELECT
+		m.id,
+		m.carId,
+		c.plateNumber,
+		cc.userName,
+		cc.phone,
+		m.date,
+		m.type,
+		m.cost,
+		m.mileage,
+		m.remark,
+		m.deFlag,
+		m.createTime,
+		m.creator,
+		m.updateTime,
+		m.updator
+	FROM
+		chechen_service m left join chechen_car c  on m.carId=c.id and c.deFlag=0 
+		left join (select c.userName,c.phone,ccar.carId from chechen_customer_car ccar,chechen_customer c where ccar.deFlag=0 and c.deFlag=0 and ccar.customerId=c.id) cc on c.id=cc.carId
+	WHERE
+		m.deFlag=0
+	<if test="plateNumber!=null">
+		AND c.plateNumber like concat('%',#{plateNumber},'%')
+	</if>
+	ORDER BY m.createTime desc
+	</select>
+	<select id="getObjectById" resultMap="serviceMap">
+	SELECT
+		m.id,
+		m.carId,
+		c.plateNumber,
+		m.date,
+		m.type,
+		m.cost,
+		m.mileage,
+		m.remark,
+		m.deFlag,
+		m.createTime,
+		m.creator,
+		m.updateTime,
+		m.updator
+	FROM
+		chechen_service m left join chechen_car c on m.carId=c.id and c.deFlag=0
+	WHERE
+		m.deFlag=0
+	AND m.id=#{value}
+	
+	</select>
+	<update id="update">
+	UPDATE chechen_service
+	<set>
+		<if test="carId!=null"> carId = #{carId},</if>
+		<if test="date!=null"> date = #{date},</if>
+		<if test="type!=null"> type = #{type},</if>
+		<if test="cost!=null"> cost = #{cost},</if>
+		<if test="mileage!=null"> mileage = #{mileage},</if>
+		<if test="remark!=null"> remark = #{remark},</if>
+		<if test="deFlag!=null"> deFlag = #{deFlag},</if>
+		updateTime= NOW()
+	</set>
+	WHERE
+	deFlag=0
+	AND id = #{id}	
+	</update>
+	<update id="batchRemove">
+		UPDATE
+			chechen_service
+		SET
+			deFlag=1
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	
+	</update>
+	
+	
+	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+</mapper>
