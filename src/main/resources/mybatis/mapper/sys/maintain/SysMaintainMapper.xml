@@ -174,5 +174,4 @@
 			AND id=#{item.id}
 		</foreach>
 	</update>
-	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 </mapper>

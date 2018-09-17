@@ -113,5 +113,4 @@
 		deFlag=0
 	AND carId=#{value}
 	</update>
-	<cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 </mapper>
