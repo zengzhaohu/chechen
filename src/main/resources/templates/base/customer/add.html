@@ -27,15 +27,13 @@
 	            </td>
         	</tr>
         	<tr>
-	            <td class="formTitle">省份<font face="宋体">*</font></td>
+	            <td class="formTitle">地址<font face="宋体">*</font></td>
 	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="省份" v-model="customer.province" isvalid="yes" checkexpession="NotNull" >
-	            </td>
-        	</tr>
-        	<tr>
-	            <td class="formTitle">城市<font face="宋体">*</font></td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="城市" v-model="customer.city" isvalid="yes" checkexpession="NotNull" >
+					<div id="distpicker">
+					  <select id="province"></select>
+					  <select id="city"></select>
+					  <select id="county"></select>
+					</div>
 	            </td>
         	</tr>
         	<tr>
@@ -47,6 +45,8 @@
 		</table>
 	</div>
 	<div th:include="include/footer_js :: footer"></div>
+	<script th:src="@{/js/plugins/distpicker/distpicker.data.js}"></script>
+	<script th:src="@{/js/plugins/distpicker/distpicker.js}"></script>
 	<script th:src="@{/js/base/customer/add.js}"></script>
 </body>
 </html>

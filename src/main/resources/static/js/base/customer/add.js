@@ -1,6 +1,9 @@
 /**
  * 新增-车辆js
  */
+
+
+
 var vm = new Vue({
 	el:'#main',
 	data: {
@@ -8,8 +11,7 @@ var vm = new Vue({
 			userName: '',
 			phone:'',
 			gender:'',
-			province:'',
-			city:'',
+			address:'',
 			remark:''
 		},
 		genderList:[
@@ -22,6 +24,14 @@ var vm = new Vue({
 			if (!$('#form').Validform()) {
 		        return false;
 		    }
+			var province = $("#province").find("option:selected").text();
+			var city = $("#city").find("option:selected").text();
+			var county = $("#county").find("option:selected").text();
+			if(isNullOrEmpty(province)||isNullOrEmpty(city) ||isNullOrEmpty(county)){
+				dialogAlert("请选择地址");
+				return;
+			}
+			vm.customer.address=province+"-"+city+"-"+county;
 		    $.SaveForm({
 		    	url: '../../sys/customer/save?_' + $.now(),
 		    	param: vm.customer,
@@ -30,5 +40,12 @@ var vm = new Vue({
 		    	}
 		    });
 		}
+	},
+	created:function(){
+		$("#distpicker").distpicker({
+			province:'广西壮族自治区',
+			city:'柳州市',
+			district:'柳江区'
+		});
 	}
 })

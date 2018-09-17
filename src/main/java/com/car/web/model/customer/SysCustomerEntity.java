@@ -10,8 +10,7 @@ public class SysCustomerEntity implements Serializable {
 	private String userName;//客户名称
 	private String phone;//电话
 	private String gender;//性别
-	private String city;//里程
-	private String province;//里程
+	private String address;
 	private String remark;
 	private String deFlag;
 	private Date createTime;
@@ -41,18 +40,6 @@ public class SysCustomerEntity implements Serializable {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getProvince() {
-		return province;
-	}
-	public void setProvince(String province) {
-		this.province = province;
 	}
 	public String getRemark() {
 		return remark;
@@ -93,14 +80,18 @@ public class SysCustomerEntity implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
 	@Override
 	public String toString() {
-		return "SysCustomerEntity [id=" + id + ", userName=" + userName + ", phone=" + phone + ", gender=" + gender
-				+ ", city=" + city + ", province=" + province + ", remark=" + remark + ", deFlag=" + deFlag
-				+ ", createTime=" + createTime + ", creator=" + creator + ", updateTime=" + updateTime + ", updator="
-				+ updator + "]";
+		return "SysCustomerEntity [id=" + id + ", userName=" + userName
+				+ ", phone=" + phone + ", gender=" + gender + ", address="
+				+ address + ", remark=" + remark + ", deFlag=" + deFlag
+				+ ", createTime=" + createTime + ", creator=" + creator
+				+ ", updateTime=" + updateTime + ", updator=" + updator + "]";
 	}
-	
-	
-	
 }

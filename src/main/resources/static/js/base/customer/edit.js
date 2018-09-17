@@ -8,8 +8,7 @@ var vm = new Vue({
 			userName: '',
 			phone:'',
 			gender:'',
-			province:'',
-			city:'',
+			address:'',
 			remark:''
 		},
 		genderList:[
@@ -24,6 +23,12 @@ var vm = new Vue({
 		    	param: vm.customer.id,
 		    	success: function(data) {
 		    		vm.customer = data;
+		    		var items = vm.customer.address.split('-');
+		    		$("#distpicker").distpicker({
+		    			province:items[0],
+		    			city:items[1],
+		    			district:items[2]
+		    		});
 		    	}
 			});
 		},
@@ -31,6 +36,14 @@ var vm = new Vue({
 			if (!$('#form').Validform()) {
 		        return false;
 		    }
+			var province = $("#province").find("option:selected").text();
+			var city = $("#city").find("option:selected").text();
+			var county = $("#county").find("option:selected").text();
+			if(isNullOrEmpty(province)||isNullOrEmpty(city) ||isNullOrEmpty(county)){
+				dialogAlert("请选择地址");
+				return;
+			}
+			vm.customer.address=province+"-"+city+"-"+county;
 		    $.ConfirmForm({
 		    	url: '../../sys/customer/update?_' + $.now(),
 		    	param: vm.customer,
@@ -39,5 +52,8 @@ var vm = new Vue({
 		    	}
 		    });
 		}
+	},
+	created:function(){
+		
 	}
 })

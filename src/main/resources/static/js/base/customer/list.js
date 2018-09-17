@@ -44,15 +44,18 @@ function getGrid() {
 			field : "gender",
 			title : "性别",
 			width : "60px",
+			formatter:function(value,row,index){
+				if(value=='0'){
+					return '女';
+				}else
+				if(value=='1'){
+					return '男';
+				}
+			}
 		}, {
-			field : "province",
-			title : "省份",
-			width : "60px",
-			align : "center",
-		}, {
-			field : "city",
-			title : "城市",
-			width : "60px",
+			field : "address",
+			title : "地址",
+			width : "250px",
 			align : "center",
 		}, {
 			field : "remark",
@@ -111,7 +114,7 @@ var vm = new Vue({
 			dialogOpen({
 				title : '新增客户',
 				url : 'base/customer/add.html?_' + $.now(),
-				width : '500px',
+				width : '800px',
 				height : '445px',
 				success : function(iframeId) {
 					//top.frames[iframeId].vm.area.parentCode = vm.parentCode;
@@ -128,7 +131,7 @@ var vm = new Vue({
 				dialogOpen({
 					title : '编辑区域',
 					url : 'base/customer/edit.html?_' + $.now(),
-					width : '500px',
+					width : '800px',
 					height : '445px',
 					success : function(iframeId) {
 						top.frames[iframeId].vm.customer.id = ck[0].id;

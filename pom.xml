@@ -27,9 +27,9 @@
 		<project.build.locales>zh_CN</project.build.locales>
 		<nekohtml-version>1.9.22</nekohtml-version>
 		<shiro-version>1.3.2</shiro-version>
-		<mysql.version></mysql.version>
 		<mybatis-ehcache-version>1.0.0</mybatis-ehcache-version>
 		<ehcache-core-version>2.6.11</ehcache-core-version>
+		<mysql-version>5.1.38</mysql-version>
 	</properties>
 
 	<dependencies>
@@ -103,7 +103,7 @@
 		<dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
+            </dependency>
 		<dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
@@ -120,12 +120,6 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-parameter-names</artifactId>
         </dependency>
-		<dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.11</version>
-        </dependency>
-
         <!--mybatis-->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
@@ -188,12 +182,6 @@
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-spring</artifactId>
 			<version>${shiro-version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
-		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>8.0.11</version>
 		</dependency>
 		<dependency>
             <groupId>tk.mybatis</groupId>

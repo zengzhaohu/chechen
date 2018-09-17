@@ -7,8 +7,7 @@
 			userName,
 			phone,
 			gender,
-			province,
-			city,
+			address,
 			remark,
 			createTime
 		)
@@ -16,8 +15,7 @@
 			#{userName},
 			#{phone}, 
 			#{gender}, 
-			#{province},
-			#{city},
+			#{address},
 			#{remark},
 			now()
 		)
@@ -28,8 +26,7 @@
 		userName,
 		phone,
 		gender,
-		province,
-		city,
+		address,
 		remark,
 		deFlag,
 		createTime,
@@ -54,8 +51,7 @@
 		userName,
 		phone,
 		gender,
-		province,
-		city,
+		address,
 		remark,
 		deFlag,
 		createTime,
@@ -75,8 +71,7 @@
 		<if test="userName!=null"> userName = #{userName},</if>
 		<if test="phone!=null"> phone = #{phone},</if>
 		<if test="gender!=null"> gender = #{gender},</if>
-		<if test="province!=null"> province = #{province},</if>
-		<if test="city!=null"> city = #{city},</if>
+		<if test="address!=null"> address = #{address},</if>
 		<if test="remark!=null"> remark = #{remark},</if>
 		<if test="deFlag!=null"> deFlag = #{deFlag},</if>
 		updateTime= NOW()
