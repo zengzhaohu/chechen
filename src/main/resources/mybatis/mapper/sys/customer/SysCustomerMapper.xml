@@ -45,6 +45,34 @@
 	</if>
 	ORDER BY createTime desc
 	</select>
+	
+	<select id="listForPage" resultType="SysCustomerEntity">
+	SELECT
+		id,
+		userName,
+		phone,
+		gender,
+		address,
+		remark,
+		deFlag,
+		createTime,
+		creator,
+		updateTime,
+		updator
+	FROM
+		chechen_customer
+	WHERE
+		deFlag=0
+	<if test="userName!=null">
+		AND userName like concat('%',#{userName},'%')
+	</if>
+	<if test="phone!=null">
+		AND phone = #{phone}
+	</if>
+	ORDER BY createTime desc
+	</select>
+	
+	
 	<select id="getObjectById" resultType="SysCustomerEntity">
 	SELECT
 		id,

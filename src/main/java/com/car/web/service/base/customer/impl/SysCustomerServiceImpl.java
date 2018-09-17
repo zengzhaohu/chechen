@@ -1,12 +1,13 @@
 package com.car.web.service.base.customer.impl;
 
-import java.util.List;
 import java.util.Map;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.car.web.common.R;
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.common.utils.CommonUtils;
 import com.car.web.model.car.SysCarEntity;
@@ -26,10 +27,11 @@ public class SysCustomerServiceImpl implements SysCustomerService {
 	}
 
 	@Override
-	public R list(Map<String, Object> params) {
+	public Page<SysCustomerEntity> list(Map<String, Object> params) {
 		Query query = new Query(params);
-		List<SysCustomerEntity> areas = sysCustomerManager.list(query);
-		return CommonUtils.msg(areas);
+		Page<SysCustomerEntity> page = new Page<>(query);
+		sysCustomerManager.list(query,page);
+		return page;
 	}
 
 	@Override

@@ -25,7 +25,6 @@ function getGrid() {
 			params.userName = vm.keyword;
 			return params;
 		},
-		pagination : false,
 		columns : [ {
 			checkbox : true
 		}, {

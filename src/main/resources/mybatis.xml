@@ -55,4 +55,8 @@
         <setting name="aggressiveLazyLoading" value="false"/>
 
     </settings>
+     <plugins>
+        <plugin interceptor="com.car.web.orm.plugins.PaginationResultSetHandlerInterceptor"/>
+        <plugin interceptor="com.car.web.orm.plugins.PaginationStatementHandlerInterceptor"/>
+    </plugins>
 </configuration>

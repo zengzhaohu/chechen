@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.mapper.car.SysCarMapper;
 import com.car.web.mapper.customer.SysCustomerMapper;
@@ -37,6 +38,10 @@ public class SysCustomerManagerImpl implements SysCustomerManager {
 	@Override
 	public int batchRemoveArea(Long[] id) {
 		return sysCustomerMapper.batchRemove(id);
+	}
+	@Override
+	public List<SysCustomerEntity> list(Query query, Page<SysCustomerEntity> page) {
+		return sysCustomerMapper.listForPage(page, query);
 	}
 
 }

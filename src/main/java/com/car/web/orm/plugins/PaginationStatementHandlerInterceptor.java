@@ -40,7 +40,6 @@ import com.car.web.orm.dialect.DialectFactory;
  * @date 2017年8月11日 上午11:33:26
  */
 @Intercepts({ @Signature(type = StatementHandler.class, method = "prepare", args = { Connection.class, Integer.class }) })
-@Component
 public class PaginationStatementHandlerInterceptor implements Interceptor {
 
     private final static Logger logger = LoggerFactory.getLogger(PaginationStatementHandlerInterceptor.class);

@@ -1,6 +1,7 @@
 package com.car.web.model;
 
-import javax.persistence.Transient;
+import java.beans.Transient;
+
 
 /**
  * 实体基类，封装分页信息
@@ -10,10 +11,8 @@ import javax.persistence.Transient;
  */
 public class BaseEntity {
 	
-	@Transient
 	private Integer page = 1;
 	
-	@Transient
 	private Integer rows = 10;
 
 	/**

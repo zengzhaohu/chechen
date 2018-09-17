@@ -32,7 +32,6 @@ import com.car.web.common.entity.Page;
  * @date 2017年8月11日 上午11:33:03
  */
 @Intercepts({ @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = { Statement.class }) })
-@Component
 public class PaginationResultSetHandlerInterceptor implements Interceptor {
 
     private static final ObjectFactory DEFAULT_OBJECT_FACTORY = new DefaultObjectFactory();

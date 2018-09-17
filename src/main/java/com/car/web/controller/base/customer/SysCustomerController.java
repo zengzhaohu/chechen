@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.car.web.common.R;
 import com.car.web.common.annotation.SysLog;
+import com.car.web.common.entity.Page;
 import com.car.web.controller.AbstractController;
 import com.car.web.model.SysAreaEntity;
 import com.car.web.model.car.SysCarEntity;
@@ -30,12 +31,12 @@ public class SysCustomerController extends AbstractController {
 	private SysCustomerService syCustomerService;
 	
 	/**
-	 * 根据父级code查询子节点，子区域列表
+	 * 查询客户列表
 	 * @param params
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public R list(@RequestBody Map<String, Object> params) {
+	public Page<SysCustomerEntity> list(@RequestBody Map<String, Object> params) {
 		return syCustomerService.list(params);
 	}
 	/**

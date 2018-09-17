@@ -2,13 +2,10 @@ package com.car.web.model;
 
 import javax.persistence.*;
 
-@Table(name = "car_user")
 public class CarUser extends BaseEntity {
     /**
      * primarykey
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

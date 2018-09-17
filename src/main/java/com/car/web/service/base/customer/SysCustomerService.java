@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.car.web.common.R;
+import com.car.web.common.entity.Page;
 import com.car.web.model.SysAreaEntity;
 import com.car.web.model.car.SysCarEntity;
 import com.car.web.model.customer.SysCustomerEntity;
@@ -16,7 +17,7 @@ public interface SysCustomerService {
 	
 	R saveCustomer(SysCustomerEntity customer);
 
-	R list(Map<String, Object> params);
+	Page<SysCustomerEntity> list(Map<String, Object> params);
 
 	R getCustomerById(Long customerId);
 
