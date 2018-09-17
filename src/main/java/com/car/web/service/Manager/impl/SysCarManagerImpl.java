@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.mapper.car.SysCarMapper;
 import com.car.web.model.car.SysCarEntity;
@@ -40,6 +41,10 @@ public class SysCarManagerImpl implements SysCarManager {
 	public int relativeCustomer(Map<String, String> params) {
 		sysCarMapper.removeOldCarRelative(params.get("carId"));
 		return sysCarMapper.saveRelativeCustomer(params);
+	}
+	@Override
+	public List<SysCarEntity> listForPage(Query query, Page<SysCarEntity> page) {
+		return sysCarMapper.listForPage(page, query);
 	}
 
 }

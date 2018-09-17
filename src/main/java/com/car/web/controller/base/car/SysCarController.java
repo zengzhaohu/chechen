@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.car.web.common.R;
 import com.car.web.common.annotation.SysLog;
+import com.car.web.common.entity.Page;
 import com.car.web.controller.AbstractController;
 import com.car.web.model.SysAreaEntity;
 import com.car.web.model.car.SysCarEntity;
@@ -33,7 +34,7 @@ public class SysCarController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public R list(@RequestBody Map<String, Object> params) {
+	public Page<SysCarEntity> list(@RequestBody Map<String, Object> params) {
 		return sysCarService.list(params);
 	}
 	/**

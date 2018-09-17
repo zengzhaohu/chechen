@@ -81,6 +81,41 @@
 	</if>
 	ORDER BY m.createTime desc
 	</select>
+	<select id="listForPage" resultType="SysMaintainEntity">
+	SELECT
+		m.id,
+		m.carId,
+		car.plateNumber,
+		cc.userName,
+		cc.phone,
+		m.date,
+		m.type,
+		m.nextDate,
+		m.cost,
+		m.mileage,
+		m.status,
+		m.remark,
+		m.deFlag,
+		m.createTime,
+		m.creator,
+		m.updateTime,
+		m.updator
+	FROM
+		chechen_maintenance m , chechen_car car left join (select c.userName,c.phone,ccar.carId from chechen_customer_car ccar,chechen_customer c where ccar.deFlag=0 and c.deFlag=0 and ccar.customerId=c.id) cc on car.id=cc.carId
+	WHERE
+		m.deFlag=0
+		and car.deFlag=0
+		AND m.carId=car.id 
+	<if test="plateNumber!=null">
+		AND car.plateNumber like concat('%',#{plateNumber},'%')
+	</if>
+	<if test="status!=null and status.trim()!=''">
+		AND m.status=#{status}
+	</if>
+	ORDER BY m.createTime desc
+	</select>
+	
+	
 	<select id="getObjectById" resultMap="serviceMap">
 	SELECT
 		m.id,

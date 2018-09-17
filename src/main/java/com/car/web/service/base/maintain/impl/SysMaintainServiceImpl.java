@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.car.web.common.R;
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.common.utils.CommonUtils;
 import com.car.web.model.car.SysCarEntity;
@@ -37,7 +38,15 @@ public class SysMaintainServiceImpl implements SysMaintainService {
 		List<SysMaintainEntity> areas = sysMaintainManager.list(query);
 		return CommonUtils.msg(areas);
 	}
-
+	
+	@Override
+	public Page<SysMaintainEntity> listForPage(Map<String, Object> params) {
+		Query query = new Query(params);
+		Page<SysMaintainEntity> page = new Page<SysMaintainEntity>();
+		List<SysMaintainEntity> areas = sysMaintainManager.listForPage(query,page);
+		return page;
+	}
+	
 	@Override
 	public R getServiceById(Long carId) {
 		SysMaintainEntity car = sysMaintainManager.getServiceById(carId);

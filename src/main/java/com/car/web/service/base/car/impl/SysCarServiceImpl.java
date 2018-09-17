@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.car.web.common.R;
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.common.utils.CommonUtils;
 import com.car.web.model.SysAreaEntity;
@@ -26,10 +27,11 @@ public class SysCarServiceImpl implements SysCarService {
 	}
 
 	@Override
-	public R list(Map<String, Object> params) {
+	public Page<SysCarEntity> list(Map<String, Object> params) {
 		Query query = new Query(params);
-		List<SysCarEntity> areas = sysCarManager.list(query);
-		return CommonUtils.msg(areas);
+		Page<SysCarEntity> page = new Page<SysCarEntity>();
+		List<SysCarEntity> areas = sysCarManager.listForPage(query,page);
+		return page;
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.car.web.common.R;
+import com.car.web.common.entity.Page;
 import com.car.web.model.SysAreaEntity;
 import com.car.web.model.car.SysCarEntity;
 import com.car.web.model.customer.SysCustomerEntity;
@@ -20,5 +21,7 @@ public interface SysMaintainService {
 	R updateService(SysMaintainEntity customer);
 
 	R batchRemoveArea(Long[] id);
+
+	Page<SysMaintainEntity> listForPage(Map<String, Object> params);
 	
 }

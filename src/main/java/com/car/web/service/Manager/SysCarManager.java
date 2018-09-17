@@ -3,6 +3,7 @@ package com.car.web.service.Manager;
 import java.util.List;
 import java.util.Map;
 
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.model.SysAreaEntity;
 import com.car.web.model.car.SysCarEntity;
@@ -19,4 +20,5 @@ public interface SysCarManager {
 	int updateCar(SysCarEntity car);
 	int batchRemoveArea(Long[] id);
 	int relativeCustomer(Map<String, String> params);
+	List<SysCarEntity> listForPage(Query query, Page<SysCarEntity> page);
 }

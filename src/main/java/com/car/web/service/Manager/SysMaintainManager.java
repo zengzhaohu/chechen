@@ -2,6 +2,7 @@ package com.car.web.service.Manager;
 
 import java.util.List;
 
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.model.SysAreaEntity;
 import com.car.web.model.car.SysCarEntity;
@@ -20,4 +21,5 @@ public interface SysMaintainManager {
 	SysMaintainEntity getServiceById(Long customerId);
 	int updateService(SysMaintainEntity customer);
 	int batchRemoveArea(Long[] id);
+	List<SysMaintainEntity> listForPage(Query query, Page<SysMaintainEntity> page);
 }

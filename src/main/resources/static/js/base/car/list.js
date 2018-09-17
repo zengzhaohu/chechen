@@ -25,7 +25,7 @@ function getGrid() {
 			params.plateNumber = vm.keyword;
 			return params;
 		},
-		pagination : false,
+		pagination : true,
 		columns : [ {
 			checkbox : true
 		}, {

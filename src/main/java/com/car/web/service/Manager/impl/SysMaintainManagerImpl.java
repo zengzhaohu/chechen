@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.car.web.common.entity.Page;
 import com.car.web.common.entity.Query;
 import com.car.web.mapper.maintain.SysMaintainMapper;
 import com.car.web.mapper.maintain.SysMaintainMaterialCostMapper;
@@ -154,6 +155,10 @@ public class SysMaintainManagerImpl implements SysMaintainManager {
 	@Override
 	public int batchRemoveArea(Long[] id) {
 		return sysMaintainMapper.batchRemove(id);
+	}
+	@Override
+	public List<SysMaintainEntity> listForPage(Query query, Page<SysMaintainEntity> page) {
+		return sysMaintainMapper.listForPage(page, query);
 	}
 
 }

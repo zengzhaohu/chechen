@@ -44,6 +44,31 @@
 	</if>
 	ORDER BY car.createTime desc
 	</select>
+	<select id="listForPage" resultType="SysCarEntity">
+	SELECT
+		car.id,
+		car.plateNumber,
+		car.carType,
+		car.age,
+		car.mileage,
+		car.remark,
+		car.deFlag,
+		car.createTime,
+		car.creator,
+		car.updateTime,
+		car.updator,
+		cc.userName,
+		cc.phone
+	FROM
+		chechen_car car left join (select c.userName,c.phone,ccar.carId from chechen_customer_car ccar,chechen_customer c where ccar.deFlag=0 and c.deFlag=0 and ccar.customerId=c.id) cc on car.id=cc.carId
+	WHERE
+		car.deFlag=0
+	<if test="plateNumber!=null">
+		AND car.plateNumber like concat('%',#{plateNumber},'%')
+	</if>
+	ORDER BY car.createTime desc
+	</select>
+	
 	<select id="getObjectById" resultType="SysCarEntity">
 	SELECT
 		id,
